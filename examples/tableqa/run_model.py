@@ -156,6 +156,15 @@ def predict_demo(args):
             [2012, "London", "UK", 204]
         ]
     }
+    question = "How old is Leonardo Di Caprio?"
+    table_context = {
+        "header": ["Actor", "Age", "Number of movies"],
+        "rows": [
+            ["Brad Pitt", "59", "70"],
+            ["Leonardo Di Caprio", "45", 24],
+            ["George Clooney", "53", "83"],
+        ]
+    }
     answer = demo_interface.predict(question=question,
                                     table_context=table_context)
     logger.info("Receive question as : {}".format(question))
