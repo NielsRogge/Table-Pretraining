@@ -35,5 +35,7 @@ class TAPEXModelInterface:
             sentences=[model_input],
             beam=5
         )
+        print("Model output:", model_output)
+        
         # the result should be a list of answers, and we only care about the answer itself instead of score
         return model_output[0][0]
