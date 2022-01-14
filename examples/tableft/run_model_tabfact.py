@@ -54,6 +54,14 @@ def set_eval_parser(parser_group):
                              help="the directory of pre-trained model path, and the default should be in"
                                   "{bart.base, bart.large, tapex.base, tapex.large}.")
 
+def set_predict_parser(parser_group):
+    predict_parser = parser_group.add_parser("predict")
+    predict_parser.add_argument("--resource-dir", type=str, required=True, default="./tapex.base",
+                                help="the resource dir which contains the model weights, vocab.bpe, "
+                                     "dict.src.txt, dict.tgt.txt and encoder.json.")
+    predict_parser.add_argument("--checkpoint-name", type=str, default="model.pt",
+                                help="the model weight's name in the resource directory")
+
 
 def train_fairseq_model(args):
     cmd = f"""
@@ -170,6 +178,7 @@ if __name__ == '__main__':
     subparsers = parser.add_subparsers(dest="subcommand")
     set_train_parser(subparsers)
     set_eval_parser(subparsers)
+    set_predict_parser(subparsers)
 
     args = parser.parse_args()
     if args.subcommand == "train":
