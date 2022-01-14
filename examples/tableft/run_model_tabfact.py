@@ -1,5 +1,6 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
+from ast import arg
 import json
 import sys
 from argparse import ArgumentParser
@@ -8,7 +9,7 @@ from fairseq_cli.generate import cli_main as fairseq_generate
 import logging
 import shlex
 import re
-from tapex.model_interface import TAPEXModelInterface
+from tapex.model_interface_tabfact import TAPEXModelInterfaceTabFact
 from fairseq.models.bart import BARTModel
 from tapex.model_eval import evaluate_generate_file
 import os
@@ -143,6 +144,26 @@ def evaluate_fairseq_model(args):
         "acc": correct / total
     }))
 
+def predict_demo(args):
+    demo_interface = TAPEXModelInterfaceTabFact(resource_dir=args.resource_dir,
+                                         checkpoint_name=args.checkpoint_name)
+    question = "Greece held its last Summer Olympics in 2004"
+    table_context = {
+        "header": ["Year", "City", "Country", "Nations"],
+        "rows": [
+            [1896, "Athens", "Greece", 14],
+            [1900, "Paris", "France", 24],
+            [1904, "St. Louis", "USA", 12],
+            [2004, "Athens", "Greece", 201],
+            [2008, "Beijing", "China", 204],
+            [2012, "London", "UK", 204]
+        ]
+    }
+    answer = demo_interface.predict(question=question,
+                                    table_context=table_context)
+    logger.info("Receive question as : {}".format(question))
+    logger.info("The answer should be : {}".format(answer))
+
 
 if __name__ == '__main__':
     parser = ArgumentParser()
@@ -155,3 +176,5 @@ if __name__ == '__main__':
         train_fairseq_model(args)
     elif args.subcommand == "eval":
         evaluate_fairseq_model(args)
+    elif args.subcommand == "predict":
+        predict_demo(args)
