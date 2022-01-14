@@ -35,7 +35,7 @@ class TAPEXModelInterfaceTabFact:
         
         # process input
         model_input = self.tab_processor.process_input(table_context, question, []).lower()
-        tokens = self.model.encode(input)
+        tokens = self.model.encode(model_input)
         pred = call_back_label(self.model.predict('sentence_classification_head', tokens).argmax().item())
         
         print("Prediction:", pred)
