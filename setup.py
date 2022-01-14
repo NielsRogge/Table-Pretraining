@@ -24,7 +24,7 @@ setuptools.setup(
     install_requires=[
         'transformers>=4.6.0',
         'numpy==1.20.3',
-        "git+https://github.com/NielsRogge/fairseq.git@debugging_tapex",
+        "fairseq@git+https://github.com/NielsRogge/fairseq.git@debugging_tapex",
         "records",
         "pandas"
     ],
