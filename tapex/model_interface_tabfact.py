@@ -33,9 +33,12 @@ class TAPEXModelInterfaceTabFact:
         [label + self.model.task.label_dictionary.nspecial]
         )
         
+        print("Label dictionary:", self.model.task.label_dictionary)
+        
         # process input
         model_input = self.tab_processor.process_input(table_context, question, []).lower()
         tokens = self.model.encode(model_input)
+        print("Raw forward pass", self.model.predict('sentence_classification_head', tokens).argmax().item())
         pred = call_back_label(self.model.predict('sentence_classification_head', tokens).argmax().item())
         
         print("Prediction:", pred)
